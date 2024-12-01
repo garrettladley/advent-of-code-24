@@ -26,6 +26,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "error running: %v\n", err)
 		os.Exit(1)
 	}
+
 	fmt.Println(r)
 }
 
@@ -51,7 +52,6 @@ func PairwiseSimilarity(p pkg.Pair[[]int]) int {
 		bCounter = Counter(p.B)
 		sum      int
 	)
-
 	for idx := range a {
 		var score int
 		if count, ok := bCounter[a[idx]]; ok {
