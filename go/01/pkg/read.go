@@ -49,6 +49,7 @@ func Read(r io.Reader) (p Pair[[]int], err error) {
 }
 
 func ReadN(r io.Reader, rows uint, numberWidth uint, spaceWidth uint) (p Pair[[]int], err error) {
+	// i don't love but it helps us unwrap the loop in the "production" case
 	if rows == Rows && numberWidth == NumberWidth && spaceWidth == SpaceWidth {
 		return Read(r)
 	}
