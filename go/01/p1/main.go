@@ -34,7 +34,11 @@ func main() {
 }
 
 func Run(ctx context.Context, r io.Reader) (string, error) {
-	p, err := pkg.Read(r)
+	return run(ctx, r, pkg.Rows, pkg.NumberWidth, pkg.SpaceWidth)
+}
+
+func run(_ context.Context, r io.Reader, rows uint, numberWidth uint, spaceWidth uint) (string, error) {
+	p, err := pkg.ReadN(r, rows, numberWidth, spaceWidth)
 	if err != nil {
 		return "", fmt.Errorf("error reading: %w", err)
 	}

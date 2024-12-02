@@ -12,12 +12,16 @@ func TestRead(t *testing.T) {
 		name        string
 		in          string
 		rows        uint
+		numberWidth uint
+		spaceWidth  uint
 		expectedOut Pair[[]int]
 	}{
 		{
-			name: "two rows",
-			in:   "80784   47731\n81682   36089\n",
-			rows: 2,
+			name:        "two rows",
+			in:          "80784   47731\n81682   36089\n",
+			rows:        2,
+			numberWidth: NumberWidth,
+			spaceWidth:  SpaceWidth,
 			expectedOut: Pair[[]int]{
 				A: []int{80784, 81682},
 				B: []int{47731, 36089},
@@ -27,7 +31,7 @@ func TestRead(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actualOut, err := readN(bytes.NewBuffer([]byte(tt.in)), tt.rows)
+			actualOut, err := ReadN(bytes.NewBuffer([]byte(tt.in)), tt.rows, tt.numberWidth, tt.spaceWidth)
 			if err != nil {
 				t.Errorf("non-nil error encountered while reading: %v", err)
 			}
