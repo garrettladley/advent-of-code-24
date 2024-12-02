@@ -45,7 +45,6 @@ func Read(r io.Reader) (p Pair[[]int], err error) {
 	}
 
 	return p, nil
-
 }
 
 func ReadN(r io.Reader, rows uint, numberWidth uint, spaceWidth uint) (p Pair[[]int], err error) {
