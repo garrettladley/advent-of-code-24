@@ -5,7 +5,7 @@ permissions: read-all
 on:
   push:
     paths:
-      - "**/**.go"
+      - "go/**/**.go"
       - .github/workflows/ci.yml
 
 concurrency:
@@ -42,7 +42,7 @@ jobs:
           key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
       - name: Check Code Formatting
         run: |
-          unformatted_files=$(gofumpt -l .)
+          unformatted_files=$(gofumpt -l ./go)
           if [ -n "$unformatted_files" ]; then
             echo "Files not formatted:"
             echo "$unformatted_files"
@@ -80,7 +80,7 @@ jobs:
         uses: golangci/golangci-lint-action@v5
         with:
           version: latest
-          working-directory: ./
+          working-directory: ./go
           args: --timeout=5m
 
   test:
@@ -109,6 +109,6 @@ jobs:
           path: ${{ steps.go-cache-paths.outputs.go-mod }}
           key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
       - name: Run Tests with Coverage
-        run: go test -v -race -coverprofile=coverage.txt ./...
+        run: cd ./go && go test -v -race -coverprofile=coverage.txt ./...
       - name: Print Coverage
-        run: go tool cover -func=coverage.txt
+        run: cd ./go && go tool cover -func=coverage.txt

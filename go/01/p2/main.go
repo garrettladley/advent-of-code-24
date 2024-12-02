@@ -1,13 +1,15 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"io"
 	"math"
 	"os"
+	"strconv"
 
-	"github.com/garrettladley/advent-of-code-24/01/pkg"
+	"github.com/garrettladley/advent-of-code-24/go/01/pkg"
 )
 
 func main() {
@@ -21,7 +23,8 @@ func main() {
 	}
 	defer f.Close()
 
-	r, err := Run(f)
+	ctx := context.Background()
+	r, err := Run(ctx, f)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error running: %v\n", err)
 		os.Exit(1)
@@ -30,12 +33,12 @@ func main() {
 	fmt.Println(r)
 }
 
-func Run(r io.Reader) (int, error) {
-	p, err := pkg.Prepare(r)
+func Run(ctx context.Context, r io.Reader) (string, error) {
+	p, err := pkg.Read(r)
 	if err != nil {
-		return 0, fmt.Errorf("error preparing: %w", err)
+		return "", fmt.Errorf("error reading: %w", err)
 	}
-	return PairwiseSimilarity(p), nil
+	return strconv.Itoa(PairwiseSimilarity(p)), nil
 }
 
 func Counter[T comparable](s []T) map[T]int {
