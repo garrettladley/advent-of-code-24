@@ -7,6 +7,7 @@ import (
 	"io"
 	"math"
 	"os"
+	"slices"
 	"strconv"
 
 	"github.com/garrettladley/advent-of-code-24/go/01/pkg"
@@ -42,7 +43,8 @@ func run(_ context.Context, r io.Reader, rows uint, numberWidth uint, spaceWidth
 	if err != nil {
 		return "", fmt.Errorf("error reading: %w", err)
 	}
-	pkg.Sort(p)
+	slices.Sort(p.A)
+	slices.Sort(p.B)
 	return strconv.Itoa(PairwiseDelta(p)), nil
 }
 
