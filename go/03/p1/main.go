@@ -5,12 +5,9 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"math"
 	"os"
-	"slices"
 	"strconv"
 
-	"github.com/garrettladley/advent-of-code-24/go/01/pkg"
 	"github.com/garrettladley/advent-of-code-24/go/aoc"
 )
 
@@ -36,27 +33,20 @@ func main() {
 }
 
 func Run(ctx context.Context, r io.Reader) (string, error) {
-	return run(ctx, r, pkg.Rows, pkg.NumberWidth, pkg.SpaceWidth)
+	return run(ctx, r)
 }
 
-func run(_ context.Context, r io.Reader, rows uint, numberWidth uint, spaceWidth uint) (string, error) {
-	p, err := pkg.ReadN(r, rows, numberWidth, spaceWidth)
+func run(_ context.Context, r io.Reader) (string, error) {
+	p, err := Read(r)
 	if err != nil {
 		return "", fmt.Errorf("error reading: %w", err)
 	}
-	slices.Sort(p.A)
-	slices.Sort(p.B)
-	return strconv.Itoa(PairwiseDelta(p)), nil
+	return strconv.Itoa(int(apply(p))), nil
 }
 
-func PairwiseDelta(p aoc.Pair[[]int]) int {
-	var (
-		a   = p.A
-		b   = p.B
-		sum int
-	)
-	for idx := range a {
-		sum += int(math.Abs(float64(a[idx] - b[idx])))
+func apply(p []aoc.Pair[uint16]) (total uint64) {
+	for _, pair := range p {
+		total += uint64(pair.A) * uint64(pair.B)
 	}
-	return sum
+	return
 }

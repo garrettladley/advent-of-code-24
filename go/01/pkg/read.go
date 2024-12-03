@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+
+	"github.com/garrettladley/advent-of-code-24/go/aoc"
 )
 
-func Read(r io.Reader) (p Pair[[]int], err error) {
+func Read(r io.Reader) (p aoc.Pair[[]int], err error) {
 	buf := new(bytes.Buffer)
 	n, err := buf.ReadFrom(r)
 	if err != nil {
@@ -47,7 +49,7 @@ func Read(r io.Reader) (p Pair[[]int], err error) {
 	return p, nil
 }
 
-func ReadN(r io.Reader, rows uint, numberWidth uint, spaceWidth uint) (p Pair[[]int], err error) {
+func ReadN(r io.Reader, rows uint, numberWidth uint, spaceWidth uint) (p aoc.Pair[[]int], err error) {
 	// i don't love but it helps us unwrap the loop in the "production" case
 	if rows == Rows && numberWidth == NumberWidth && spaceWidth == SpaceWidth {
 		return Read(r)

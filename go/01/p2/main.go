@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/garrettladley/advent-of-code-24/go/01/pkg"
+	"github.com/garrettladley/advent-of-code-24/go/aoc"
 )
 
 func main() {
@@ -53,7 +54,7 @@ func Counter[T comparable](s []T) map[T]int {
 	return m
 }
 
-func PairwiseSimilarity(p pkg.Pair[[]int]) int {
+func PairwiseSimilarity(p aoc.Pair[[]int]) int {
 	var (
 		a        = p.A
 		bCounter = Counter(p.B)

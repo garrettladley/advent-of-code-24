@@ -3,6 +3,8 @@ package pkg
 import (
 	"bytes"
 	"testing"
+
+	"github.com/garrettladley/advent-of-code-24/go/aoc"
 )
 
 func TestRead(t *testing.T) {
@@ -14,7 +16,7 @@ func TestRead(t *testing.T) {
 		rows        uint
 		numberWidth uint
 		spaceWidth  uint
-		expectedOut Pair[[]int]
+		expectedOut aoc.Pair[[]int]
 	}{
 		{
 			name:        "two rows",
@@ -22,7 +24,7 @@ func TestRead(t *testing.T) {
 			rows:        2,
 			numberWidth: NumberWidth,
 			spaceWidth:  SpaceWidth,
-			expectedOut: Pair[[]int]{
+			expectedOut: aoc.Pair[[]int]{
 				A: []int{80784, 81682},
 				B: []int{47731, 36089},
 			},
@@ -36,13 +38,13 @@ func TestRead(t *testing.T) {
 				t.Errorf("non-nil error encountered while reading: %v", err)
 			}
 			if len(actualOut.A) != len(tt.expectedOut.A) {
-				t.Errorf("expected len(actual.a) to be %d, but was %d", len(actualOut.A), len(tt.expectedOut.A))
+				t.Fatalf("expected len(actual.a) to be %d, but was %d", len(actualOut.A), len(tt.expectedOut.A))
 			}
 			if len(actualOut.B) != len(tt.expectedOut.B) {
-				t.Errorf("expected len(actual.b) to be %d, but was %d", len(actualOut.B), len(tt.expectedOut.B))
+				t.Fatalf("expected len(actual.b) to be %d, but was %d", len(actualOut.B), len(tt.expectedOut.B))
 			}
 			if len(actualOut.A) != len(actualOut.B) {
-				t.Errorf("expected len(actual.a) == len(actual.b), but len(actual.a)=%d and len(actual.b)=%d", len(actualOut.A), len(actualOut.B))
+				t.Fatalf("expected len(actual.a) == len(actual.b), but len(actual.a)=%d and len(actual.b)=%d", len(actualOut.A), len(actualOut.B))
 			}
 
 			for idx := range actualOut.A {
