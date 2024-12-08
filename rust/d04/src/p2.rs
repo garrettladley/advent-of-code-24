@@ -12,7 +12,6 @@ const DIRECTIONS: [[IVec2; 2]; 4] = [
     [IVec2::new(1, -1), IVec2::new(-1, 1)], // diagonal up right, diagonal down left
 ];
 
-#[tracing::instrument(skip(input))]
 pub fn process(input: &str) -> miette::Result<String> {
     let positions = input
         .lines()
