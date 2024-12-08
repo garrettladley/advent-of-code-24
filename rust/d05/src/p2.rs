@@ -12,10 +12,6 @@ type Rules = HashMap<u32, Vec<u32>>;
 type Updates = Vec<Vec<u32>>;
 type ParseResult = (Rules, Updates);
 
-// See https://github.com/rust-lang/rust-clippy/issues/13185
-// Using map on L25 is intentional as we need to mutate the Vec<u32> in place
-#[allow(clippy::manual_inspect)]
-
 pub fn process(input: &str) -> miette::Result<String> {
     let (_input, (rules, mut updates)) = parse(input).map_err(|e| miette!("parse failed {}", e))?;
     let result: u32 = updates
