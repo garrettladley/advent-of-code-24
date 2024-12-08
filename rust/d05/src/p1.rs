@@ -8,6 +8,10 @@ use nom::{
 };
 use std::collections::HashMap;
 
+type Rules = HashMap<u32, Vec<u32>>;
+type Updates = Vec<Vec<u32>>;
+type ParseResult = (Rules, Updates);
+
 pub fn process(input: &str) -> miette::Result<String> {
     let (_input, (rules, updates)) = parse(input).map_err(|e| miette!("parse failed {}", e))?;
 
@@ -25,14 +29,14 @@ pub fn process(input: &str) -> miette::Result<String> {
     Ok(result.to_string())
 }
 
-fn rules(input: &str) -> IResult<&str, HashMap<u32, Vec<u32>>> {
+fn rules(input: &str) -> IResult<&str, Rules> {
     fold_many1(
         terminated(
             separated_pair(complete::u32, tag("|"), complete::u32),
             line_ending,
         ),
         HashMap::default,
-        |mut acc: HashMap<u32, Vec<u32>>, (page, after)| {
+        |mut acc: Rules, (page, after)| {
             acc.entry(page)
                 .and_modify(|afters| {
                     afters.push(after);
@@ -43,11 +47,11 @@ fn rules(input: &str) -> IResult<&str, HashMap<u32, Vec<u32>>> {
     )(input)
 }
 
-fn updates(input: &str) -> IResult<&str, Vec<Vec<u32>>> {
+fn updates(input: &str) -> IResult<&str, Updates> {
     separated_list1(line_ending, separated_list1(tag(","), complete::u32))(input)
 }
 
-fn parse(input: &str) -> IResult<&str, (HashMap<u32, Vec<u32>>, Vec<Vec<u32>>)> {
+fn parse(input: &str) -> IResult<&str, ParseResult> {
     let (input, parsed_rules) = terminated(rules, line_ending)(input)?;
     let (input, parsed_updates) = updates(input)?;
     Ok((input, (parsed_rules, parsed_updates)))

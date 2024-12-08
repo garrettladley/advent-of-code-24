@@ -8,9 +8,12 @@ use nom::{
 };
 use std::{cmp::Ordering, collections::HashMap};
 
+type Rules = HashMap<u32, Vec<u32>>;
+type Updates = Vec<Vec<u32>>;
+type ParseResult = (Rules, Updates);
+
 pub fn process(input: &str) -> miette::Result<String> {
     let (_input, (rules, mut updates)) = parse(input).map_err(|e| miette!("parse failed {}", e))?;
-
     let result: u32 = updates
         .iter_mut()
         .filter(|update| {
@@ -31,18 +34,17 @@ pub fn process(input: &str) -> miette::Result<String> {
             update[middle]
         })
         .sum();
-
     Ok(result.to_string())
 }
 
-fn rules(input: &str) -> IResult<&str, HashMap<u32, Vec<u32>>> {
+fn rules(input: &str) -> IResult<&str, Rules> {
     fold_many1(
         terminated(
             separated_pair(complete::u32, tag("|"), complete::u32),
             line_ending,
         ),
         HashMap::default,
-        |mut acc: HashMap<u32, Vec<u32>>, (page, after)| {
+        |mut acc: Rules, (page, after)| {
             acc.entry(page)
                 .and_modify(|afters| {
                     afters.push(after);
@@ -53,11 +55,11 @@ fn rules(input: &str) -> IResult<&str, HashMap<u32, Vec<u32>>> {
     )(input)
 }
 
-fn updates(input: &str) -> IResult<&str, Vec<Vec<u32>>> {
+fn updates(input: &str) -> IResult<&str, Updates> {
     separated_list1(line_ending, separated_list1(tag(","), complete::u32))(input)
 }
 
-fn parse(input: &str) -> IResult<&str, (HashMap<u32, Vec<u32>>, Vec<Vec<u32>>)> {
+fn parse(input: &str) -> IResult<&str, ParseResult> {
     let (input, parsed_rules) = terminated(rules, line_ending)(input)?;
     let (input, parsed_updates) = updates(input)?;
     Ok((input, (parsed_rules, parsed_updates)))
@@ -66,7 +68,6 @@ fn parse(input: &str) -> IResult<&str, (HashMap<u32, Vec<u32>>, Vec<Vec<u32>>)> 
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
     fn test_process() -> miette::Result<()> {
         let input = "47|53
@@ -90,7 +91,6 @@ mod tests {
 47|29
 75|13
 53|13
-
 75,47,61,53,29
 97,61,53,29,13
 75,29,13
