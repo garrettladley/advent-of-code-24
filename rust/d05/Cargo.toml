@@ -1,0 +1,9 @@
+[package]
+name = "d05"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+miette.workspace = true
+glam.workspace = true
+nom.workspace = true
