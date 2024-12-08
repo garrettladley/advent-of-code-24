@@ -1,0 +1,9 @@
+[package]
+name = "d04"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+glam = "0.29.2"
+miette = "7.4.0"
+tracing = "0.1.41"
