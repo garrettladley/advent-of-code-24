@@ -71,6 +71,7 @@ fn parse(input: &str) -> IResult<&str, ParseResult> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn test_process() -> miette::Result<()> {
         let input = "47|53
@@ -94,6 +95,7 @@ mod tests {
 47|29
 75|13
 53|13
+
 75,47,61,53,29
 97,61,53,29,13
 75,29,13
