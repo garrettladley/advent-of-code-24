@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - "go/**/**.go"
-      - .github/workflows/ci.yml
+      - .github/workflows/go.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
