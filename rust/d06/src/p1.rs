@@ -14,7 +14,7 @@ pub fn process(input: &str) -> miette::Result<String, String> {
     Ok(len.to_string())
 }
 
-fn patrol_path(w: &World) -> HashSet<IVec2> {
+pub fn patrol_path(w: &World) -> HashSet<IVec2> {
     let mut guard_position = w.guard.position;
     let mut guard_direction = w.guard.direction;
     let mut visited: HashSet<IVec2> = HashSet::from([guard_position]);

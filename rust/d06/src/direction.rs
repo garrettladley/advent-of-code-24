@@ -2,7 +2,7 @@ use std::fmt::{self, Display, Formatter};
 
 use glam::IVec2;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Direction {
     Up,
     Down,
