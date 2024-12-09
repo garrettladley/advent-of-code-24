@@ -37,8 +37,8 @@ impl FromStr for World {
     type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let lines: Vec<&str> = s.lines().collect();
-        let height = lines.len() as usize;
-        let width = lines.first().map(|line| line.len()).unwrap_or(0) as usize;
+        let height = lines.len();
+        let width = lines.first().map(|line| line.len()).unwrap_or(0);
 
         let obstacle_positions = s
             .lines()

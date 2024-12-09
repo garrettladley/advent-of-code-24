@@ -1,3 +1,5 @@
+use std::fmt::{self, Display, Formatter};
+
 use glam::IVec2;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -9,7 +11,7 @@ pub enum Direction {
 }
 
 impl Direction {
-    pub fn to_ivec2(&self) -> IVec2 {
+    pub fn to_ivec2(self) -> IVec2 {
         match self {
             Direction::Up => IVec2::NEG_Y,
             Direction::Down => IVec2::Y,
@@ -41,13 +43,13 @@ impl TryFrom<char> for Direction {
     }
 }
 
-impl ToString for Direction {
-    fn to_string(&self) -> String {
+impl Display for Direction {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Up => "^".to_string(),
-            Self::Down => "v".to_string(),
-            Self::Left => "<".to_string(),
-            Self::Right => ">".to_string(),
+            Self::Up => write!(f, "^"),
+            Self::Down => write!(f, "v"),
+            Self::Left => write!(f, "<"),
+            Self::Right => write!(f, ">"),
         }
     }
 }
